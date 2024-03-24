@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+// import 'package:barcode_scan/barcode_scan.dart';
 
 void main() {
   runApp(const MyApp());
@@ -56,7 +59,25 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  int _currentIndex=0;
+  String _scanBarcodeResult='';
 
+  Future<void> scanBarcode() async{
+    String barcodeScanRes;
+    try{
+    barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+      '#ff6666', 'Annuler', true, ScanMode.BARCODE);
+    debugPrint(barcodeScanRes);
+    } on PlatformException{
+      barcodeScanRes = 'Erreur Technique';
+    }
+    if(!mounted) return;
+    
+    setState(() {
+      _scanBarcodeResult = barcodeScanRes;
+    });
+
+  }
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -106,19 +127,38 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text(_scanBarcodeResult)
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: this._currentIndex,
+        items: [
+          BottomNavigationBarItem(
+          icon: const Icon(Icons.fullscreen),
+          label:'Scanner',
+          backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer
+          ),
+          BottomNavigationBarItem(
+          icon: const Icon(Icons.web_stories),
+          label:'Historique',
+          backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer
+          ),
+          BottomNavigationBarItem(
+          icon: const Icon(Icons.person),
+          label:'Profil',
+          backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer
+          ),
+          ],
+          onTap:(index){
+            setState(() {
+              _currentIndex=index;
+            });
+          }
+        ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: scanBarcode,
+        tooltip: 'Scan',
         backgroundColor: Theme.of(context).colorScheme.primary,
 
         child: const Icon(Icons.fullscreen, color: Colors.white),
