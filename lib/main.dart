@@ -132,21 +132,33 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         currentIndex: this._currentIndex,
         items: [
           BottomNavigationBarItem(
-          icon: const Icon(Icons.fullscreen),
-          label:'Scanner',
+          icon: const Icon(Icons.home_filled),
+          label:'Home',
+          backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer
+          ),
+          BottomNavigationBarItem(
+          icon: const Icon(Icons.explore),
+          label:'Explore',
           backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer
           ),
           BottomNavigationBarItem(
           icon: const Icon(Icons.web_stories),
-          label:'Historique',
+          label:'Library',
           backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer
           ),
+
           BottomNavigationBarItem(
           icon: const Icon(Icons.person),
           label:'Profil',
+          backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer
+          ),
+          BottomNavigationBarItem(
+          icon: const Icon(Icons.more_vert),
+          label:'More',
           backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer
           ),
           ],
