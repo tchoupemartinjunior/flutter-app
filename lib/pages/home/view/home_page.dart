@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import '../../navigation_menu.dart';
 
 export '../view/home_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+  HomePage({super.key, required this.title});
   final String title;
-  
 
   @override
   State<HomePage> createState() => MyHomePageState();
@@ -15,18 +16,42 @@ class HomePage extends StatefulWidget {
 
 class MyHomePageState extends State<HomePage> {
 
-  int _currentIndex=0;
+  String _scanBarcodeResult = '';
+
+  Future<void> scanBarcode() async {
+    String barcodeScanRes;
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Annuler', true, ScanMode.BARCODE);
+      debugPrint(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Erreur Technique';
+    }
+    if (!mounted) return;
+
+    setState(() {
+      _scanBarcodeResult = barcodeScanRes;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
-   
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: Text(widget.title,
-          style: const TextStyle(color: Colors.white), ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[Text(_scanBarcodeResult)],
+        ),
       ),
-       bottomNavigationBar: NavigationMenu()
+      floatingActionButton: FloatingActionButton(
+        onPressed: scanBarcode,
+        tooltip: 'Scan',
+        backgroundColor: Color(0xFFDC1A22),
+        child: const Icon(Icons.fullscreen, color: Colors.white),
+      ), 
+// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
 }
