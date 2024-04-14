@@ -41,15 +41,12 @@ class MyHomePageState extends State<HomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Text(_scanBarcodeResult)],
+          children: <Widget>[
+            const Text("Home"),
+            Text(_scanBarcodeResult)],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: scanBarcode,
-        tooltip: 'Scan',
-        backgroundColor: Color(0xFFDC1A22),
-        child: const Icon(Icons.fullscreen, color: Colors.white),
-      ), 
+ 
 // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
