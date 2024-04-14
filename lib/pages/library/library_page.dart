@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -29,11 +31,13 @@ class _LibraryPageState extends State<LibraryPage> {
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.search),
                 hintText: 'Book Title',
+                focusColor:Colors.grey,
                 border:OutlineInputBorder(
                   borderRadius:BorderRadius.circular(10),
                   borderSide: const BorderSide(color:Color.fromARGB(255, 228, 226, 226))
                 )
               ),
+              onChanged: searchBook,
             )
           ),
           Expanded(
@@ -64,4 +68,18 @@ class _LibraryPageState extends State<LibraryPage> {
       ),
     );
   }
+
+  void searchBook(String query){
+    final suggestions = allBooks.where((book){
+      final bookTitle = book.title.toLowerCase();
+      final input = query.toLowerCase();
+
+      return bookTitle.contains(input); 
+    }).toList();
+
+    setState(() {
+      books=suggestions;
+    });
+  }
 }
+
