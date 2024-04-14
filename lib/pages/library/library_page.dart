@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_first_app/domain/book_repository/models/book_model.dart';
 export '../library/library_page.dart';
 
 class LibraryPage extends StatefulWidget {
@@ -12,6 +14,9 @@ class LibraryPage extends StatefulWidget {
 }
 
 class _LibraryPageState extends State<LibraryPage> {
+
+  List<Book> books = allBooks;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,29 +25,38 @@ class _LibraryPageState extends State<LibraryPage> {
           Container(
             margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
             child:TextField(
+              style: TextStyle(height: 1),
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.search),
                 hintText: 'Book Title',
                 border:OutlineInputBorder(
                   borderRadius:BorderRadius.circular(10),
-                  borderSide: const BorderSide(color:Colors.grey)
+                  borderSide: const BorderSide(color:Color.fromARGB(255, 228, 226, 226))
                 )
               ),
             )
           ),
           Expanded(
-        child: ListView(
-          children:const [
-            Card(
+        child: ListView.builder(
+          itemCount: books.length,
+          itemBuilder: (context,index){
+            final book = books[index];
+
+            return Card(
               child: ListTile(
-                leading:FlutterLogo(size:56.0),
-                title: Text('Le Petit Prince'),
-                subtitle: Text('Antoine de st Exupery'),
+                leading: Image.asset(
+                  book.urlImage,
+                  fit:BoxFit.cover,
+                  width:50,
+                  height:50
+                  ),
+                title: Text(book.title),
+                subtitle: Text(book.author),
                 isThreeLine: true,
-                trailing: Icon(Icons.more_vert)
-              )
-            )
-          ],
+                trailing: const Icon(Icons.more_vert)
+              ),      
+            );
+          },
         ),
           )
         ]
