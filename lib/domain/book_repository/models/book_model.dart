@@ -14,11 +14,11 @@ class Book{
     Book(
       title: 'Le Petit Prince',
       author: 'Antoine de st Exupery',
-      urlImage: 'images/petit-prince.jpg'
+      urlImage: 'assets/images/petit-prince.jpg'
       ),
       Book(
       title: 'Le Chemin de la vie',
       author: 'Zacharias Tanee Fomum',
-      urlImage: 'images/petit-prince.jpg'
+      urlImage: 'assets/images/petit-prince.jpg'
       )
   ];
